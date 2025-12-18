@@ -1,0 +1,199 @@
+:root {
+    --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
+    --background-color: #2c3e50;
+    --board-bg: #34495e;
+    --cell-bg: #ecf0f1;
+    --text-color: #ffffff;
+    --highlight-color: #ffe66d;
+    --cell-size: 60px;
+    --gap-size: 8px;
+    --board-padding: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none; /* Prevent text selection during play */
+    -webkit-user-select: none;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; /* Prevent scrolling on mobile */
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+}
+
+.game-header {
+    text-align: center;
+    width: 100%;
+}
+
+h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+}
+
+.stats-panel {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.stat-box {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #bdc3c7;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+/* Game Board */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: var(--gap-size);
+    background-color: var(--board-bg);
+    padding: var(--board-padding);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    width: fit-content;
+    touch-action: manipulation; /* Improve touch handling */
+}
+
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 2.5rem;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s;
+    position: relative; /* For absolutely positioned animations if needed */
+}
+
+/* Hover effect for desktop */
+@media (hover: hover) {
+    .cell:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        transform: scale(1.05);
+    }
+}
+
+.cell.selected {
+    background-color: var(--primary-color);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px var(--primary-color);
+    z-index: 10;
+}
+
+.cell.match {
+    animation: popOut 0.3s forwards;
+}
+
+.cell.drop {
+    animation: dropIn 0.4s ease-out;
+}
+
+@keyframes popOut {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+@keyframes dropIn {
+    0% { transform: translateY(-50px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+.controls {
+    margin-top: 10px;
+}
+
+.btn {
+    background-color: var(--secondary-color);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    font-family: 'Fredoka One', cursive;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #3cb3ab;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn:active {
+    transform: translateY(5px);
+    box-shadow: none;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    :root {
+        --cell-size: 11vw; /* Responsive cell size */
+        --gap-size: 1vw;
+        --board-padding: 2vw;
+    }
+
+    .game-container {
+        padding: 10px;
+        gap: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 5px;
+    }
+    
+    .cell {
+        font-size: 8vw;
+        border-radius: 1vw;
+    }
+    
+    .stats-panel {
+        gap: 15px;
+    }
+    
+    .stat-box {
+        padding: 5px 15px;
+        min-width: 80px;
+    }
+}
